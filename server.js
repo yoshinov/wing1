@@ -1,4 +1,5 @@
 // default get access handler
+// hoge
 var serverTimeStamp = 'Time-stamp: <2016-10-26 11:11:21 yoshinov>';
 
 'use strict';
