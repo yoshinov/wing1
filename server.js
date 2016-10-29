@@ -46,24 +46,6 @@ app.use(session({
 app.use(userPassport.initialize());
 app.use(userPassport.session());
 
-// app.get('/term', (req, res) => { res.render('term', {term: req.user}) });
-//
-// app.get('/term/register', (req, res) => { res.render('termReg', {}) });
-// app.post('/term/register', termPassport.authenticate('terminal-signup', {
-//     successRedirect: '/term',
-//     failureRedirect: '/term/register'
-// }));
-//
-// app.get('/term/login', (req, res) => { res.render('termLogin', {term: req.term}) });
-// app.post('/term/login', termPassport.authenticate('terminal-login', {
-//     successRedirect: '/term',
-//     failureRedirect: '/term/login'
-// }));
-//
-// app.get('/term/logout', (req, res) => {
-//     req.logout();
-//     res.redirect('/term');
-// });
 
 app.get('/u/:series/:code', codes.show);
 app.post('/u/:series/:code', codes.register);
