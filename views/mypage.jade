@@ -1,26 +1,24 @@
-doctype html
-html
-    head
-        title GLOBAL
-    body
-        if codeData.user
-            p ユーザー登録済み #{codeData.user.name}
-        else if user
-            p このコードはまだユーザーと関連付けられていません。
-            form(action='/u/#{series}/#{code}', method='post')
-                input(type='hidden', name='serial', value='#{codeData.serial}')
-                input(type='submit')
-        else
-            p このコードはまだユーザーと関連付けられていません。登録するには先にログインしてください。
-            a(href="/user") ログイン/サインアップ
-        h1 history
-        table
+extends layout
+
+block content
+    if codeData.user
+        p ユーザー登録済み #{codeData.user.name}
+    else if user
+        p このコードはまだユーザーと関連付けられていません。
+        form(action='/u/#{series}/#{code}', method='post')
+            input(type='hidden', name='serial', value='#{codeData.serial}')
+            input(type='submit')
+    else
+        p このコードはまだユーザーと関連付けられていません。登録するには先にログインしてください。
+        a(href="/user") ログイン/サインアップ
+    h1 history
+    table
+        tr
+            th 拠点名
+            th 立ち寄り時刻
+            th コメントカード
+        each log in codeData.history
             tr
-                th 拠点名
-                th 立ち寄り時刻
-                th コメントカード
-            each log in codeData.history
-                tr
-                    th: a(href='#{log.homeURL}') #{log.name}
-                    th #{log.mt}
-                    th: a(href='#{log.commentURL}') #{log.commentURL}
+                th: a(href='#{log.homeURL}') #{log.name}
+                th #{log.mt}
+                th: a(href='#{log.commentURL}') #{log.commentURL}

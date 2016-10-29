@@ -1,13 +1,9 @@
 extends layout
 
 block content
-    .container
-        h1 端末ログイン
-        form(role='form', action="/term/login",method="post", style='max-width: 300px;')
-            .form-group
-                input.form-control(type='text', name="_id")
-            .form-group
-                input.form-control(type='pw', name="pw")
-            button.btn.btn-default(type='submit') Submit
-        a(href='/')
-        button.btn.btn-primary(type="button") Cancel
+    form(action="/term/login", method="post")
+        input(type='text', name="_id", placeholder='tid')
+        br
+        input(type='password', name="pw", placeholder='Password')
+        br
+        button(type='submit') Submit

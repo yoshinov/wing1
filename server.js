@@ -5,7 +5,6 @@ var serverTimeStamp = 'Time-stamp: <2016-10-26 11:11:21 yoshinov>';
 
 const port      = 80;
 const ORGANIZER = '48v研究会';
-const CSS_DIR   = '/home/yoshinov/css/';
 
 // サーバー実装の前に、エラーハンドリングを記載します。
 process.on('uncaughtException', err => {console.log(err)});
