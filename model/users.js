@@ -1,8 +1,9 @@
 const mongoose              = require('mongoose');
+const Schema                = mongoose.Schema;
 const passportLocalMongoose = require('passport-local-mongoose');
 const findOrCreate          = require('mongoose-findorcreate');
 
-const User = new mongoose.Schema({
+const User = new Schema({
     name: {
         type: String,
         unique: true

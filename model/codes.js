@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
+const Schema   = mongoose.Schema;
 
-const Code = new mongoose.Schema({
+const Code = new Schema({
     serial: {
         type: String,
         unique: true
