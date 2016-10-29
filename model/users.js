@@ -1,5 +1,7 @@
-const mongoose = require('mongoose');
-const Schema   = mongoose.Schema;
+const mongoose              = require('mongoose');
+const Schema                = mongoose.Schema;
+const passportLocalMongoose = require('passport-local-mongoose');
+const findOrCreate          = require('mongoose-findorcreate');
 
 const Code = new Schema({
     serial: {
@@ -13,7 +15,10 @@ const Code = new Schema({
     history: [{
         _id: false,
         event: String,
-        tid: String,
+        tid: {
+            type: String,
+            ref: "Terminal"
+        },
         mt: Date,
         info: String,
         ip: String,
@@ -27,10 +32,7 @@ const Code = new Schema({
         coupon: Number,
         value: Number
     }]
-}, {
-    collection: "code",
-    timestamps: true
-});
+}, {timestamps: true});
 
 const User = new Schema({
     name: {
@@ -49,10 +51,13 @@ const User = new Schema({
     facebook: String,
     twitter: String,
     message: String
-}, {
-    collection: "user",
-    timestamps: true
+}, {timestamps: true});
+
+User.plugin(passportLocalMongoose, {
+    usernameField: "email",
+    passwordField: "pw"
 });
+User.plugin(findOrCreate);
 
 exports.user = mongoose.model('User', User);
 exports.code = mongoose.model('Code', Code);

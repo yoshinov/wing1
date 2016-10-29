@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    if (!term)
+        a(href="/term/login") Login
+        br
+        a(href="/term/register") Register
+    if (term)
+        p You are currently logged in as #{term.tid}
+        a(href="/term/logout") Logout

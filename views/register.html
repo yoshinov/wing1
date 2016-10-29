@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link id="css" href="stylesheets/design1.css" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!--TODO: google api keyの設定-->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGguNCPxGYxFgazHUAW4HjpJ8eOLB1fM&signed_in=true&libraries=places&callback=init_autocomplete"
+            async defer></script>
+    <script src="javascripts/google_autofill.js"></script>
+    <script src="javascripts/signup.js"></script>
+</head>
+<body>
+
+<!--TODO: form actionの設定-->
+<form id="signup" action="/register" method="POST">
+    <label for="style_change" class="translate" title="style_change"></label>
+    <select id="style_change">
+        <option>design1</option>
+        <option>design2</option>
+    </select><br/>
+
+    <label for="language" class="translate" title="language"></label>
+    <select id="language" name="language">
+        <option>日本語</option>
+        <option>English</option>
+        <option>中文</option>
+        <option>한국어</option>
+    </select><br/>
+
+    <label for="name" class="translate" title="nickname"></label>
+    <input type="text" id="name" name="name" required/><br/>
+
+    <label for="email" class="translate" title="e-mail"></label>
+    <input type="email" id="email" name="email" required/> <br/>
+
+    <label for="autocomplete" class="translate" title="address"></label>
+    <input type="text" id="autocomplete" required/><br/>
+
+    <fieldset name="autofilled_address">
+        <label for="street_number" class="translate" title="street_number"></label>
+        <input type="text" id="street_number" name="street_number"/> <br/>
+
+        <label for="route" class="translate" title="route"></label>
+        <input type="text" id="route" name="route"/><br/>
+
+        <label for="locality" class="translate" title="locality"></label>
+        <input type="text" id="locality" name="locality" required/><br/>
+
+        <label for="administrative_area_level_1" class="translate" title="administrative_area_level_1"></label>
+        <input type="text" id="administrative_area_level_1" name="administrative_area_level_1" required/><br/>
+
+        <label for="postal_code" class="translate" title="postal_code"></label>
+        <input type="text" id="postal_code" name="postal_code" required/><br/>
+
+        <label for="country" class="translate" title="country"></label>
+        <input type="text" id="country" name="country" required/><br/>
+    </fieldset>
+
+    <label for="pw" class="translate" title="password"></label>
+    <input type="password" id="pw" name="pw" required/><br/>
+
+    <label for="confirm" class="translate" title="confirm"></label>
+    <input type="password" id="confirm" required/><br/>
+
+    <label for="agreement" class="translate" title="agreement"></label>
+    <input type="checkbox" id="agreement" required/><br/>
+
+    <button type="submit" class="translate" title="sign_up"></button>
+</form>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+{
+  "nickname": {
+    "日本語": "ニックネーム",
+    "English": "Nickname",
+    "中文": "昵称",
+    "한국어": "닉네임"
+  },
+  "e-mail": {
+    "日本語": "メールアドレス",
+    "English": "e-mail",
+    "中文": "电子邮件",
+    "한국어": "전자 메일"
+  },
+  "address": {
+    "日本語": "住所",
+    "English": "address",
+    "中文": "地址",
+    "한국어": "주소"
+  },
+  "postal": {
+    "日本語": "郵便番号",
+    "English": "Postal code",
+    "中文": "邮政编码",
+    "한국어": "우편 번호"
+  },
+  "street_number": {
+    "日本語": "Street address",
+    "English": "Street address",
+    "中文": "街道地址",
+    "한국어": "거리 주소"
+  },
+  "route": {
+    "日本語": "Route",
+    "English": "Route",
+    "中文": "路",
+    "한국어": "경로"
+  },
+  "locality": {
+    "日本語": "市区町村",
+    "English": "City",
+    "中文": "城",
+    "한국어": "도시"
+  },
+  "administrative_area_level_1": {
+    "日本語": "都道府県",
+    "English": "State",
+    "中文": "国家",
+    "한국어": "주"
+  },
+  "postal_code": {
+    "日本語": "郵便番号",
+    "English": "Postal code",
+    "中文": "邮政编码",
+    "한국어": "우편 번호"
+  },
+  "country": {
+    "日本語": "国",
+    "English": "Country",
+    "中文": "国家",
+    "한국어": "나라"
+  },
+  "password": {
+    "日本語": "パスワード",
+    "English": "Password",
+    "中文": "密码",
+    "한국어": "비밀번호"
+  },
+  "confirm": {
+    "日本語": "パスワードの確認",
+    "English": "Confirm Password",
+    "中文": "确认密码",
+    "한국어": "비밀번호 확인"
+  },
+  "language": {
+    "日本語": "使用言語",
+    "English": "Language",
+    "中文": "语言",
+    "한국어": "언어"
+  },
+  "agreement": {
+    "日本語": "利用規約に同意します。",
+    "English": "I agree with the terms.",
+    "中文": "我同意的条款。",
+    "한국어": "나는 조건에 동의합니다."
+  },
+  "sign_up": {
+    "日本語": "登録",
+    "English": "Sign up",
+    "中文": "登录",
+    "한국어": "가입"
+  },
+  "confirmation_fail": {
+    "日本語": "確認用パスワードを正しく入力してください。",
+    "English": "Confirmation password does not match. Please re-enter it correctly.",
+    "中文": "确认密码不匹配，请重新输入正确的。",
+    "한국어": "확인 비밀번호가 일치하지 않습니다 올바르게 다시 입력하십시오."
+  },
+  "style_change": {
+    "日本語": "表示スタイルの変更",
+    "English": "Change display style",
+    "中文": "改变显示风格",
+    "한국어": "변경 표시 스타일"
+  }
+}
