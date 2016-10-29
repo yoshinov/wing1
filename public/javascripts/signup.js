@@ -14,7 +14,7 @@ $(document).ready(function () {
         });
     };
 
-    $.getJSON("javascripts/language.json", function (response) {
+    $.getJSON("/javascripts/language.json", function (response) {
         lang_data = response;
         translate();
     });
@@ -38,10 +38,10 @@ $(document).ready(function () {
         const style = $("#css");
         switch ($(this).val()) {
             case "design1":
-                style.attr("href", "stylesheets/design1.css");
+                style.attr("href", "/stylesheets/design1.css");
                 break;
             case "design2":
-                style.attr("href", "stylesheets/design2.css");
+                style.attr("href", "/stylesheets/design2.css");
                 break;
         }
     })

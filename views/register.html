@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link id="css" href="stylesheets/design1.css" rel="stylesheet" type="text/css"/>
+    <link id="css" href="/stylesheets/design1.css" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!--TODO: google api keyの設定-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGguNCPxGYxFgazHUAW4HjpJ8eOLB1fM&signed_in=true&libraries=places&callback=init_autocomplete"
             async defer></script>
-    <script src="javascripts/google_autofill.js"></script>
-    <script src="javascripts/signup.js"></script>
+    <script src="/javascripts/google_autofill.js"></script>
+    <script src="/javascripts/signup.js"></script>
 </head>
 <body>
 
 <!--TODO: form actionの設定-->
-<form id="signup" action="/register" method="POST">
+<form id="signup" action="/user/register" method="POST">
     <label for="style_change" class="translate" title="style_change"></label>
     <select id="style_change">
         <option>design1</option>
