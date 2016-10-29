@@ -1,7 +1,7 @@
 const pullInterval = 600000;    //ミリ秒
 
-const User = require('./model/users').user;
-const Code = require('./model/users').code;
+const User = require('../model/users');
+const Code = require('../model/codes');
 
 /**
  * 端末に最新のデータ変更を渡す。

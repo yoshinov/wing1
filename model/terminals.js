@@ -2,15 +2,15 @@ const mongoose              = require('mongoose');
 const passportLocalMongoose = require('passport-local-mongoose');
 
 const termSchema = new mongoose.Schema({
-    tid: String,
+    _id: String,
     pw: String,
-    shop: String,
+    name: String,
     homeURL: String,
     commentURL: String
 });
 
 termSchema.plugin(passportLocalMongoose, {
-    usernameField: "tid",
+    usernameField: "_id",
     passwordField: "pw"
 });
 

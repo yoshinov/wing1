@@ -15,12 +15,13 @@
     "moment": "^2.15.1",
     "mongoose": "^4.6.4",
     "mongoose-findorcreate": "^0.1.2",
-    "morgan": "~1.7.0",
+    "morgan": "^1.7.0",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "passport-twitter": "^1.0.4",
-    "serve-favicon": "~2.3.0"
+    "serve-favicon": "~2.3.0",
+    "sprintf-js": "^1.0.3"
   }
 }

@@ -1,6 +1,5 @@
-const Passport         = require('passport').Passport;
-const User             = require('./model/users').user;
-const Terminal         = require('./model/terminals');
+const passport         = require('passport');
+const User             = require('../model/users');
 const LocalStrategy    = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy  = require('passport-twitter').Strategy;
@@ -12,9 +11,7 @@ const TWITTER_APP_ID      = "CFLImOOuCYNZvh9Nb8PhYO678";
 const TWITTER_APP_SECRET  = "V6whEjJbImQ8qKyVJMV6KGVTJBqCDkqNyPrNtgivLkPISqcqiS";
 const CALLBACK_DOMAIN     = "http://localhost:3000";
 
-function initUser() {
-    const passport = new Passport();
-
+function init() {
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
@@ -70,41 +67,4 @@ function initUser() {
     return passport;
 }
 
-function initTerminal() {
-    const passport = new Passport();
-
-    passport.serializeUser(function (term, done) {
-        done(null, term.id);
-    });
-
-    passport.deserializeUser(function (id, done) {
-        Terminal.findById(id, function (err, term) {
-            done(err, term);
-        });
-    });
-
-    passport.use('terminal-login', Terminal.createStrategy());
-    passport.use('terminal-signup', new LocalStrategy({
-        usernameField: 'tid',
-        passwordField: 'pw',
-        passReqToCallback: true
-    }, function (req, tid, pw, done) {
-        delete req.body.pw;
-
-        Terminal.register(new Terminal(req.body), pw, function (err, user) {
-            if (!err) {
-                done(null, user);
-            } else if (err.name == 'BadRequestError') {
-                done(null, false);  // 固有キー重複
-            } else {
-                console.log(err);
-                done(err, user);     // サーバーエラー
-            }
-        });
-    }));
-
-    return passport;
-}
-
-exports.user = initUser();
-exports.term = initTerminal();
+module.exports = init();

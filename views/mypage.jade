@@ -1,13 +1,26 @@
 doctype html
 html
-  head
-    title #{tid} GLOBAL
-  body
-    p user name (#{name})
-    p email (#{email})
-    h1 ようこそ
-    p デモのため，マイページは予告なく削除されることがあります．あらかじめご了承ください．
-    h1 history
-    p (#{history})
-    p code (#{code})
-    p series (#{series})
+    head
+        title GLOBAL
+    body
+        if codeData.user
+            p ユーザー登録済み #{codeData.user.name}
+        else if user
+            p このコードはまだユーザーと関連付けられていません。
+            form(action='/u/#{series}/#{code}', method='post')
+                input(type='hidden', name='serial', value='#{codeData.serial}')
+                input(type='submit')
+        else
+            p このコードはまだユーザーと関連付けられていません。登録するには先にログインしてください。
+            a(href="/user") ログイン/サインアップ
+        h1 history
+        table
+            tr
+                th 拠点名
+                th 立ち寄り時刻
+                th コメントカード
+            each log in codeData.history
+                tr
+                    th: a(href='#{log.homeURL}') #{log.name}
+                    th #{log.mt}
+                    th: a(href='#{log.commentURL}') #{log.commentURL}

@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var display_lang = "日本語";
-    var lang_data    = {};  //TODO: constにしたい
+    var lang_data    = {};
 
     const translate = function () {
         $(".translate").text(function () {

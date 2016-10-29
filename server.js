@@ -8,21 +8,22 @@ const ORGANIZER = '48v研究会';
 const CSS_DIR   = '/home/yoshinov/css/';
 
 // サーバー実装の前に、エラーハンドリングを記載します。
-process.on('uncaughtException', function (err) {console.log(err);});
+process.on('uncaughtException', err => {console.log(err)});
 
-const express      = require('express');
-const app          = express();
-const path         = require('path');
-const bodyParser   = require('body-parser');
-const session      = require('express-session');
-const logger       = require('morgan');
-const MongoStore   = require('connect-mongo')(session);
-const moment       = require('moment');
-const mongoose     = require('mongoose');
-const sync         = require('./sync');
-const acc          = require('./model/acc');
-const userPassport = require('./auth').user;
-const termPassport = require('./auth').term;
+const express    = require('express');
+const app        = express();
+const path       = require('path');
+const bodyParser = require('body-parser');
+const session    = require('express-session');
+const logger     = require('morgan');
+const MongoStore = require('connect-mongo')(session);
+const moment     = require('moment');
+const mongoose   = require('mongoose');
+
+const coder        = require('./coder');
+const sync         = require('./routes/sync');
+const codes        = require('./routes/codes');
+const userPassport = require('./routes/users');
 
 mongoose.connect('mongodb://localhost/wings');
 
@@ -43,64 +44,46 @@ app.use(session({
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-app.all('/user*', userPassport.initialize());
-app.all('/user*', userPassport.session());
-app.all('/term*', termPassport.initialize());
-app.all('/term*', termPassport.session());
+app.use(userPassport.initialize());
+app.use(userPassport.session());
 
-// routing
-/**
- * term
- **/
-app.get('/term', function (req, res) {
-    res.render('term', {term: req.user});
-});
+// app.get('/term', (req, res) => { res.render('term', {term: req.user}) });
+//
+// app.get('/term/register', (req, res) => { res.render('termReg', {}) });
+// app.post('/term/register', termPassport.authenticate('terminal-signup', {
+//     successRedirect: '/term',
+//     failureRedirect: '/term/register'
+// }));
+//
+// app.get('/term/login', (req, res) => { res.render('termLogin', {term: req.term}) });
+// app.post('/term/login', termPassport.authenticate('terminal-login', {
+//     successRedirect: '/term',
+//     failureRedirect: '/term/login'
+// }));
+//
+// app.get('/term/logout', (req, res) => {
+//     req.logout();
+//     res.redirect('/term');
+// });
 
-app.get('/term/register', function (req, res) {
-    res.render('termReg', {});
-});
-app.post('/term/register', termPassport.authenticate('terminal-signup', {
-    successRedirect: '/term',
-    failureRedirect: '/term/register'
-}));
+app.get('/u/:series/:code', codes.show);
+app.post('/u/:series/:code', codes.register);
 
-app.get('/term/login', function (req, res) {
-    res.render('termLogin', {term: req.term});
-});
-app.post('/term/login', termPassport.authenticate('terminal-login', {
-    successRedirect: '/term',
-    failureRedirect: '/term/login'
-}));
+app.get('/user', (req, res) => { res.render('user', {user: req.user}) });
 
-app.get('/term/logout', function (req, res) {
-    req.logout();
-    res.redirect('/term');
-});
-
-/**
- * user
- */
-app.get('/user', function (req, res) {
-    res.render('user', {user: req.user});
-});
-
-app.get('/user/register', function (req, res) {
-    res.render('register', {});
-});
+app.get('/user/register', (req, res) => { res.render('register', {}) });
 app.post('/user/register', userPassport.authenticate('local-signup', {
     successRedirect: '/user',
-    failureRedirect: '/register'
+    failureRedirect: '/user/register'
 }));
 
-app.get('/user/login', function (req, res) {
-    res.render('login', {user: req.user});
-});
+app.get('/user/login', (req, res) => { res.render('login', {user: req.user}) });
 app.post('/user/login', userPassport.authenticate('local-login', {
     successRedirect: '/user',
-    failureRedirect: '/login'
+    failureRedirect: '/user/login'
 }));
 
-app.get('/user/logout', function (req, res) {
+app.get('/user/logout', (req, res) => {
     req.logout();
     res.redirect('/user');
 });
@@ -108,13 +91,13 @@ app.get('/user/logout', function (req, res) {
 app.get('/auth/twitter', userPassport.authenticate('twitter'));
 app.get('/auth/twitter/callback', userPassport.authenticate('twitter', {
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/user/login'
 }));
 
 app.get('/auth/facebook', userPassport.authenticate('facebook'));
 app.get('/auth/facebook/callback', userPassport.authenticate('facebook', {
     successRedirect: '/',
-    failureRedirect: '/login'
+    failureRedirect: '/user/login'
 }));
 
 app.post('/pull', sync.pull);
@@ -125,23 +108,25 @@ app.post('/push', sync.push);
 //
 
 // CSS file対応
-app.get('/css/:file', function (req, res) {
-    res.sendFile(CSS_DIR + req.params.file);
-});
+// app.get('/css/:file', (req, res) => {
+//     res.sendFile(CSS_DIR + req.params.file);
+// });
 
 // 2016/8/6 vpn 証明書に対応する
 // /usr/local/certbot/certbot-auto renew --force-renew --webroot -w /home/yoshinov/vpn
 //  http://48v.me/.well-known/ にアクセスがあったとき，それ以下の文字列をファイル名とみなして中身をテキストとして返送する
-app.get('/.well-known/acme-challenge/:file', function (req, res) {
+app.get('/.well-known/acme-challenge/:file', (req, res) => {
     //res.send('hello ' + req.params.file);
     res.sendFile('/home/yoshinov/vpn/.well-known/acme-challenge/' + req.params.file);
 });
 
 
 // default root
-app.get('/', function (req, res) {
-    acc.update({cc: 'ac2'}, {$inc: {value: 0}}, {upsert: true}, function (err) {
-        acc.update({cc: 'ac1'}, {$inc: {value: 1}}, {upsert: true}, function (err) {
+const acc = require('./model/acc');
+
+app.get('/', (req, res) => {
+    acc.update({cc: 'ac2'}, {$inc: {value: 0}}, {upsert: true}, (err) => {
+        acc.update({cc: 'ac1'}, {$inc: {value: 1}}, {upsert: true}, (err) => {
             var str = '?/?';
             if (err) {
                 res.render('index', {
@@ -149,7 +134,7 @@ app.get('/', function (req, res) {
                     ac: str
                 });
             } else {
-                acc.find({}, function (err, doc) {
+                acc.find({}, (err, doc) => {
                     if (!err) { str = doc[0].value + '/' + doc[1].value; }
                     res.render('index', {
                         group: ORGANIZER,
@@ -162,9 +147,7 @@ app.get('/', function (req, res) {
 });
 
 // その他
-app.all('/*', function (req, res) {
-    res.send('nice boat');
-});
+app.all('/*', (req, res) => { res.send('nice boat') });
 
 app.listen(port);
 console.log(moment().format("YYYY年MM月DD日 HH:mm:ss") + " server starting...port:" + port + " " + serverTimeStamp);
