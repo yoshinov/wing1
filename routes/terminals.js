@@ -3,15 +3,8 @@ const Terminal      = require('../model/terminals');
 const LocalStrategy = require('passport-local').Strategy;
 
 function init() {
-    passport.serializeUser(function (term, done) {
-        done(null, term.id);
-    });
-
-    passport.deserializeUser(function (id, done) {
-        Terminal.findById(id, function (err, term) {
-            done(err, term);
-        });
-    });
+    passport.serializeUser((term, done) => { done(null, term.id) });
+    passport.deserializeUser((id, done) => { Terminal.findById(id, done) });
 
     passport.use('terminal-login', Terminal.createStrategy());
     passport.use('terminal-signup', new LocalStrategy({

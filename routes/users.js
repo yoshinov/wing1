@@ -26,19 +26,11 @@ function mypage(req, res) {
     } else {
         res.render('user');
     }
-
 }
 
 function initPassport() {
-    passport.serializeUser(function (user, done) {
-        done(null, user.id);
-    });
-
-    passport.deserializeUser(function (id, done) {
-        User.findById(id, function (err, user) {
-            done(err, user);
-        });
-    });
+    passport.serializeUser((user, done) => { done(null, user.id) });
+    passport.deserializeUser((id, done) => { User.findById(id, done) });
 
     // emailとpasswordでの認証
     passport.use('local-login', User.createStrategy());
@@ -67,9 +59,7 @@ function initPassport() {
         clientSecret: FACEBOOK_APP_SECRET,
         callbackURL: CALLBACK_DOMAIN + "/auth/facebook/callback"
     }, function (accessToken, refreshToken, profile, done) {
-        User.findOrCreate({facebook: profile.id}, function (err, user) {
-            done(err, user);
-        });
+        User.findOrCreate({facebook: profile.id}, done);
     }));
 
     passport.use(new TwitterStrategy({
@@ -77,9 +67,7 @@ function initPassport() {
         consumerSecret: TWITTER_APP_SECRET,
         callbackURL: CALLBACK_DOMAIN + "/auth/twitter/callback"
     }, function (accessToken, refreshToken, profile, done) {
-        User.findOrCreate({twitter: profile.id}, function (err, user) {
-            done(err, user);
-        });
+        User.findOrCreate({twitter: profile.id}, done);
     }));
 
     return passport;
