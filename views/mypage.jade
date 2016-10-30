@@ -9,6 +9,10 @@ block content
         br
         input(type='text', name='email', placeholder='email')
         br
+        input(type='password', name='pw', placeholder='new password')
+        br
+        input(type='password', placeholder='confirm password')
+        br
         select(name='language')
             option 日本語
             option English
@@ -18,6 +22,7 @@ block content
         button(type='submit') Submit
 
     each code in codes
+        p コード番号 #{code.serial}
         table
             tr
                 th 拠点名
@@ -28,3 +33,4 @@ block content
                     th: a(href='#{log.homeURL}') #{log.name}
                     th #{log.mt}
                     th: a(href='#{log.commentURL}') #{log.commentURL}
+        br

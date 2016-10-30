@@ -1,0 +1,31 @@
+{
+  "domain": "https://48v.me",
+  "port": 80,
+  "termManagePort": 3000,
+  "organizer": "48v研究会",
+  "api": {
+    "facebook": {
+      "id": "1824566707774891",
+      "secret": "d2a925c2e88af0e3ea326dc32803e3ec"
+    },
+    "twitter": {
+      "id": "CFLImOOuCYNZvh9Nb8PhYO678",
+      "secret": "V6whEjJbImQ8qKyVJMV6KGVTJBqCDkqNyPrNtgivLkPISqcqiS"
+    },
+    "google": {
+      "url": "https://maps.googleapis.com/maps/api/js?key=AIzaSyAPGguNCPxGYxFgazHUAW4HjpJ8eOLB1fM&signed_in=true&libraries=places&callback=init_autocomplete"
+    }
+  },
+  "https": {
+    "key": "/etc/letsencrypt/live/48v.me/privkey.pem",
+    "cert": "/etc/letsencrypt/live/48v.me/cert.pem",
+    "chain": "/etc/letsencrypt/live/48v.me/chain.pem",
+    "fullchain": "/etc/letsencrypt/live/48v.me/fullchain.pem"
+  },
+  "languages": [
+    "日本語",
+    "English",
+    "中文",
+    "한국어"
+  ]
+}

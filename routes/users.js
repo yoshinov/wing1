@@ -30,6 +30,12 @@ function mypage(req, res) {
 
 function update(req, res) {
     if (req.user) {
+        try {
+            req.user.setPassword(req.body.pw, () => {req.user.save()});
+        } catch (e) {
+            res.sendStatus(400);
+        }
+
         // ユーザーが編集可能な項目を制限する。
         delete req.body._id;
         delete req.body.pw;
@@ -40,7 +46,7 @@ function update(req, res) {
             .then(result => {res.redirect('/user')})
             .catch(err => {
                 //TODO: show more detailed error description for the user   e.g. email conflict
-                res.sendStatus(400)
+                res.sendStatus(400);
             })
     } else {
         res.sendStatus(403);
