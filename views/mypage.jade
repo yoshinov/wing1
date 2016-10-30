@@ -1,17 +1,22 @@
 extends layout
 
 block content
-    p You are currently logged in as #{user.email} #{user.twitter} #{user.facebook}
-        a(href='/user/logout') Logout
+    a(href='/user/logout') ログアウト
+    br
 
+    h1 プロフィールの編集
     form(action='/user', method='post')
-        input(type='text', name='name', placeholder='name')
+        label ニックネーム
+        input(type='text', name='name', value=user.name)
         br
-        input(type='text', name='email', placeholder='email')
+        label e-mail
+        input(type='text', name='email', value=user.email)
         br
-        input(type='password', name='pw', placeholder='new password')
+        lable 新しいパスワード
+        input(type='password', name='pw')
         br
-        input(type='password', placeholder='confirm password')
+        label パスワードの再入力
+        input(type='password')
         br
         select(name='language')
             option 日本語
@@ -19,8 +24,9 @@ block content
             option 中文
             option 한국어
         br
-        button(type='submit') Submit
+        button(type='submit') 保存
 
+    h1 最新のお立ち寄り
     each code in codes
         p コード番号 #{code.serial}
         table
@@ -30,7 +36,7 @@ block content
                 th コメントカード
             each log in code.history
                 tr
-                    th: a(href='#{log.homeURL}') #{log.name}
-                    th #{log.mt}
-                    th: a(href='#{log.commentURL}') #{log.commentURL}
+                    td: a(href='#{log.homeURL}') #{log.name}
+                    td #{log.mt}
+                    td: a(href='#{log.commentURL}') #{log.commentURL}
         br
