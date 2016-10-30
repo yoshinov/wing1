@@ -1,5 +1,6 @@
 const passport         = require('passport');
 const User             = require('../model/users');
+const Code             = require('../model/codes');
 const LocalStrategy    = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy  = require('passport-twitter').Strategy;
@@ -9,9 +10,26 @@ const FACEBOOK_APP_ID     = "1824566707774891";
 const FACEBOOK_APP_SECRET = "d2a925c2e88af0e3ea326dc32803e3ec";
 const TWITTER_APP_ID      = "CFLImOOuCYNZvh9Nb8PhYO678";
 const TWITTER_APP_SECRET  = "V6whEjJbImQ8qKyVJMV6KGVTJBqCDkqNyPrNtgivLkPISqcqiS";
-const CALLBACK_DOMAIN     = "http://localhost:3000";
+const CALLBACK_DOMAIN     = "https://48v.me";
 
-function init() {
+function mypage(req, res) {
+    if (req.user) {
+        Code.find({user: req.user._id}, {history: {$slice: 8}}).populate('history.terminal').then(docs => {
+            res.render('mypage', {
+                user: req.user,
+                codes: docs
+            })
+        }).catch(err => {
+            console.log(err);
+            res.sendStatus(500);
+        });
+    } else {
+        res.render('user');
+    }
+
+}
+
+function initPassport() {
     passport.serializeUser(function (user, done) {
         done(null, user.id);
     });
@@ -67,4 +85,5 @@ function init() {
     return passport;
 }
 
-module.exports = init();
+exports.mypage   = mypage;
+exports.passport = initPassport();

@@ -15,12 +15,12 @@ function show(req, res) {
         Code.findOne({serial: decoded[0]}, {history: {$slice: 8}}).populate('history.terminal').populate('user').then(doc => {
             if (doc) {
                 option.codeData = doc;
-                res.render('codes', option);
+                res.render('codeInfo', option);
             } else {
                 const code = new Code({serial: decoded[0]});
                 code.save().then(product => {
                     option.codeDta = product;
-                    res.render('codes', option);
+                    res.render('codeInfo', option);
                 })
             }
         }).catch(err => {

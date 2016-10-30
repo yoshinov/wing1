@@ -11,6 +11,7 @@ process.on('uncaughtException', err => {console.log(err)});
 
 const express    = require('express');
 const app        = express();
+const https      = require('https');
 const path       = require('path');
 const bodyParser = require('body-parser');
 const session    = require('express-session');
@@ -19,10 +20,15 @@ const MongoStore = require('connect-mongo')(session);
 const moment     = require('moment');
 const mongoose   = require('mongoose');
 
-const coder        = require('./coder');
-const sync         = require('./routes/sync');
-const codes        = require('./routes/codes');
-const userPassport = require('./routes/users');
+const User     = require('./model/users');
+const Code     = require('./model/codes');
+const Terminal = require('./model/terminals');
+
+const coder    = require('./coder');
+const sync     = require('./routes/sync');
+const codes    = require('./routes/codes');
+const users    = require('./routes/users');
+const passport = users.passport;
 
 mongoose.connect('mongodb://localhost/wings');
 
@@ -43,23 +49,23 @@ app.use(session({
     store: new MongoStore({mongooseConnection: mongoose.connection})
 }));
 
-app.use(userPassport.initialize());
-app.use(userPassport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 app.get('/u/:series/:code', codes.show);
 app.post('/u/:series/:code', codes.register);
 
-app.get('/user', (req, res) => { res.render('user', {user: req.user}) });
+app.get('/user', users.mypage);
 
 app.get('/user/register', (req, res) => { res.render('register', {}) });
-app.post('/user/register', userPassport.authenticate('local-signup', {
+app.post('/user/register', passport.authenticate('local-signup', {
     successRedirect: '/user',
     failureRedirect: '/user/register'
 }));
 
 app.get('/user/login', (req, res) => { res.render('login', {user: req.user}) });
-app.post('/user/login', userPassport.authenticate('local-login', {
+app.post('/user/login', passport.authenticate('local-login', {
     successRedirect: '/user',
     failureRedirect: '/user/login'
 }));
@@ -69,14 +75,14 @@ app.get('/user/logout', (req, res) => {
     res.redirect('/user');
 });
 
-app.get('/auth/twitter', userPassport.authenticate('twitter'));
-app.get('/auth/twitter/callback', userPassport.authenticate('twitter', {
+app.get('/auth/twitter', passport.authenticate('twitter'));
+app.get('/auth/twitter/callback', passport.authenticate('twitter', {
     successRedirect: '/',
     failureRedirect: '/user/login'
 }));
 
-app.get('/auth/facebook', userPassport.authenticate('facebook'));
-app.get('/auth/facebook/callback', userPassport.authenticate('facebook', {
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/user/login'
 }));
@@ -87,11 +93,6 @@ app.post('/push', sync.push);
 //
 // 以下，サイト共通
 //
-
-// CSS file対応
-// app.get('/css/:file', (req, res) => {
-//     res.sendFile(CSS_DIR + req.params.file);
-// });
 
 // 2016/8/6 vpn 証明書に対応する
 // /usr/local/certbot/certbot-auto renew --force-renew --webroot -w /home/yoshinov/vpn
@@ -130,5 +131,6 @@ app.get('/', (req, res) => {
 // その他
 app.all('/*', (req, res) => { res.send('nice boat') });
 
+// https.createServer(options, app).listen(port);   //TODO: SSL cert
 app.listen(port);
 console.log(moment().format("YYYY年MM月DD日 HH:mm:ss") + " server starting...port:" + port + " " + serverTimeStamp);

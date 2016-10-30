@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    p You are currently logged in as #{user.email} #{user.twitter} #{user.facebook}
+        a(href="/user/logout") Logout
+    each code in codes
+        table
+            tr
+                th 拠点名
+                th 立ち寄り時刻
+                th コメントカード
+            each log in code.history
+                tr
+                    th: a(href='#{log.homeURL}') #{log.name}
+                    th #{log.mt}
+                    th: a(href='#{log.commentURL}') #{log.commentURL}
