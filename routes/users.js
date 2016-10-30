@@ -28,6 +28,25 @@ function mypage(req, res) {
     }
 }
 
+function update(req, res) {
+    if (req.user) {
+        // ユーザーが編集可能な項目を制限する。
+        delete req.body._id;
+        delete req.body.pw;
+        delete req.body.facebook;
+        delete req.body.twitter;
+
+        req.user.update({$set: req.body}).exec()
+            .then(result => {res.redirect('/user')})
+            .catch(err => {
+                //TODO: show more detailed error description for the user   e.g. email conflict
+                res.sendStatus(400)
+            })
+    } else {
+        res.sendStatus(403);
+    }
+}
+
 function initPassport() {
     passport.serializeUser((user, done) => { done(null, user.id) });
     passport.deserializeUser((id, done) => { User.findById(id, done) });
@@ -74,4 +93,5 @@ function initPassport() {
 }
 
 exports.mypage   = mypage;
+exports.update   = update;
 exports.passport = initPassport();

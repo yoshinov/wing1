@@ -2,7 +2,21 @@ extends layout
 
 block content
     p You are currently logged in as #{user.email} #{user.twitter} #{user.facebook}
-        a(href="/user/logout") Logout
+        a(href='/user/logout') Logout
+
+    form(action='/user', method='post')
+        input(type='text', name='name', placeholder='name')
+        br
+        input(type='text', name='email', placeholder='email')
+        br
+        select(name='language')
+            option 日本語
+            option English
+            option 中文
+            option 한국어
+        br
+        button(type='submit') Submit
+
     each code in codes
         table
             tr

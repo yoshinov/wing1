@@ -35,7 +35,6 @@ mongoose.connect('mongodb://localhost/wings');
 app.set('view engine', 'jade');
 app.set('views', __dirname + '/views');
 
-//app.use(logger('dev'));
 app.use(logger('default'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -57,6 +56,7 @@ app.get('/u/:series/:code', codes.show);
 app.post('/u/:series/:code', codes.register);
 
 app.get('/user', users.mypage);
+app.post('/user', users.update);
 
 app.get('/user/register', (req, res) => { res.render('register', {}) });
 app.post('/user/register', passport.authenticate('local-signup', {

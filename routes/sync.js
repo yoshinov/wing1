@@ -13,6 +13,7 @@ function pull(req, res) {
     Promise.all([userData, codeData]).then(results => {
         console.log('pulled data: ' + JSON.stringify(results));
 
+        // TODO: set different pullInterval for each clients. use req.body.tid for that.
         res.json({
             users: results[0],
             codes: results[1],

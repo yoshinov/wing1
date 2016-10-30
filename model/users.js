@@ -18,8 +18,7 @@ const User = new Schema({
     postal: String,
     address: String,
     facebook: String,
-    twitter: String,
-    message: String
+    twitter: String
 }, {timestamps: true});
 
 User.plugin(passportLocalMongoose, {
