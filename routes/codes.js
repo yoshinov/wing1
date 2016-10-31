@@ -19,7 +19,7 @@ function show(req, res) {
             } else {
                 const code = new Code({serial: decoded[0]});
                 code.save().then(product => {
-                    option.codeDta = product;
+                    option.codeData = product;
                     res.render('codeInfo', option);
                 })
             }
