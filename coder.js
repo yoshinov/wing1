@@ -13,14 +13,14 @@ var DECIMAL = 62;
 
 var hashtable = ["7", "o", "3", "T", "k", "b", "s", "q", "x", "J", "r", "Z", "t", "j", "e", "O", "I", "l", "P", "K", "a", "U", "f", "c", "C", "m", "z", "X", "y", "0", "8", "w", "N", "d", "R", "M", "F", "G", "u", "h", "5", "1", "p", "B", "W", "Q", "H", "S", "D", "V", "E", "L", "9", "g", "i", "6", "A", "Y", "4", "2", "n", "v"];
 
+const CODELEN = 8;
 
 function decode(series, orgbody) {
 
     var uid = -1;
 
     if (series == '7') {
-        // CODELEN == 8
-        if (orgbody.length != 8) { return (-1); }
+        if (orgbody.length != CODELEN || series == null || orgbody == null) { return (-1); }
 
         var i;
         for (i = 0; i < orgbody.length; i++) {

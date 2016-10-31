@@ -26,6 +26,7 @@ const Terminal = require('./model/terminals');
 
 const coder    = require('./coder');
 const sync     = require('./routes/sync');
+const contact  = require('./routes/contact');
 const codes    = require('./routes/codes');
 const users    = require('./routes/users');
 const passport = users.passport;
@@ -86,6 +87,14 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', {
     successRedirect: '/',
     failureRedirect: '/user/login'
 }));
+
+app.get('/e', (req, res) => {
+    res.render('op', {
+        accesspoint: '/e',
+        tid: null
+    });
+});
+app.post('/e', contact);
 
 app.post('/pull', sync.pull);
 app.post('/push', sync.push);

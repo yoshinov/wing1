@@ -1,0 +1,69 @@
+doctype html
+html
+    head
+        title #{tid} GLOBAL
+        link(rel='stylesheet', type='text/css', href='stylesheets/op.css')
+        script(type='text/javascript').
+            <!--
+            window.onload = function(){
+                document.getElementById("messages").style.background = '#{color}';
+                flg=true;
+                endflag=true;
+                setMsgTenmetu();
+                setTimeout("rbcolor()", 3000 );
+            }
+            function rbcolor(){
+                document.getElementById("messages").style.background = '#FFFFFF' ;
+                endflag=false;
+            }
+            function lastClear(){
+                var target = document.getElementById("form01");
+                target.method = "post";
+                target.submit();
+                //document.getElementById("serial").value ='';
+            }
+            function setMsgTenmetu(){
+                document.getElementById("msgid1").innerHTML = '#{resmes}';
+                if(flg){
+                document.getElementById("msgid2").innerHTML='#{resmes2}';
+            }else{
+                document.getElementById("msgid2").innerHTML=' ';
+            }
+                if(endflag){
+                flg=!flg;
+                setTimeout("setMsgTenmetu()",500);
+            }else{
+                document.getElementById("welcome").innerHTML='<center>次のお客様<br>どうぞ！</center>';
+                document.getElementById("welcome2").innerHTML='<center>Next, please!</center>';
+                document.getElementById("msgid1").innerHTML=' ';
+                document.getElementById("msgid2").innerHTML=' ';
+            }
+            }
+            function enter(){
+                if( window.event.keyCode != 13 ){
+                document.getElementById("welcome").innerHTML=' ';
+                document.getElementById("welcome2").innerHTML=' ';
+                document.getElementById( "messages" ).style.background = '#FF00FF' ;
+                setTimeout("lastClear()",3000);
+            }else{
+                document.getElementById("msgid1").innerHTML='処理中';
+                document.getElementById("msgid2").innerHTML='おまちください';
+                //var target = document.getElementById("form01");
+                //target.method = "post";
+                //target.submit();
+                //document.getElementById("serial").value ='';
+            }
+            }
+            //-->
+    body
+        div#messages(style='margin: 0px; width: 460px; height: 50px;')
+        div#welcome(style='FONT-SIZE: 60px;')
+        div#welcome2(style='FONT-SIZE: 20px;')
+        div#msgid1(style='FONT-SIZE: 60px;')
+        div#msgid2(style='FONT-SIZE: 40px;')
+        form(action='#{accesspoint}', id='form01', method='post')
+            input(type='text', id='serial', name='serial', size='40',
+            autofocus='', onkeydown='enter();')
+            input(type='hidden', name='event', value='sammafesta')
+            input(type='hidden', name='tid', value='#{tid}')
+        button(type='button', onclick="alert('#{info}')") Info
